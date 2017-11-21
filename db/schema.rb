@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120133736) do
+ActiveRecord::Schema.define(version: 20171121083732) do
 
   create_table "active_admin_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "namespace"
@@ -41,6 +41,52 @@ ActiveRecord::Schema.define(version: 20171120133736) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "mib_ports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "switch_id"
+    t.integer "if_nbr"
+    t.string "port_desc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["switch_id"], name: "index_mib_ports_on_switch_id"
+  end
+
+  create_table "ports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "switch_id"
+    t.string "port"
+    t.integer "speed"
+    t.string "remark"
+    t.string "in_usg"
+    t.string "out_usg"
+    t.integer "in_err"
+    t.integer "out_err"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["switch_id"], name: "index_ports_on_switch_id"
+  end
+
+  create_table "switches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.string "ip"
+    t.string "login"
+    t.string "password"
+    t.string "model"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_switches_on_name"
+  end
+
+  create_table "vlans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "switch_id"
+    t.integer "vlan"
+    t.string "remark"
+    t.string "gateway"
+    t.string "netmask"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["switch_id"], name: "index_vlans_on_switch_id"
   end
 
 end
