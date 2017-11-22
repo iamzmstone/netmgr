@@ -1,0 +1,14 @@
+<!-- Navigation -->
+<%= link_to "网络数据管理平台", root_path, class: 'navbar-brand' %>
+<div class="navbar-collapse collapse">
+	<ul class="nav navbar-nav">
+    <li><%= link_to "交换机列表", list_switch_path %></li>
+    <li><%= link_to "重要端口列表", list_port_path %></li>
+    <li><%= link_to "VLAN列表", vlans_path %></li>
+	</ul>
+	<%= form_tag 'q_search_path', method: :post, class: "navbar-form pull-right" do %>
+		<input class="span2" type="text" name="q" placeholder="请输入sn或IP或点位名称">
+		<button type="submit" class="btn btn-success">搜索</button>
+    <% end %>
+</div>
+<!-- End Navigation -->

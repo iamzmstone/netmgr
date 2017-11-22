@@ -1,0 +1,31 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>交换机</th>
+      <th>端口</th>
+      <th>描述</th>
+      <th>状态</th>
+      <th>入端口流量占用百分比</th>
+      <th>出端口流量占用百分比</th>
+      <th>入端口错误包数</th>
+      <th>出端口错误包数</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ports.each do |port| %>
+      <tr>
+        <td><%= link_to(port.switch.name, switch_detail_path(switch_id: port.switch)) %></td>
+        <td><%= port.port %></td>
+        <td><%= port.remark %></td>
+        <td><%= port.status %></td>
+        <td><%= port.in_usg %></td>
+        <td><%= port.out_usg %></td>
+        <td><%= port.in_err %></td>
+        <td><%= port.out_err %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @ports, theme: 'bootstrap3' %>

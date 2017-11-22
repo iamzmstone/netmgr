@@ -1,14 +1,36 @@
 <!DOCTYPE html>
-<html>
   <head>
-    <title>Netmgr</title>
-    <%= csrf_meta_tags %>
+    <meta charset="utf-8" />
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= "绍兴公安监控专网网络数据管理" + (content_for?(:title) ? yield(:title) : "") %></title>
+    <meta name="description" content="监控专网网络数据管理">
+    <meta name="author" content="zengm@189.cn">
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+    <%= yield(:head) %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <%= render 'layouts/navigation' %>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+        <%= render 'layouts/messages' %>
+        <%= yield %>
+        <div class="footer">
+          <%= render 'layouts/footer' %>
+        </div>
+        </div>
+      </div>
+    </div> <!--! end of .container -->
   </body>
 </html>

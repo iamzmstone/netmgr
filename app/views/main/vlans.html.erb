@@ -1,0 +1,25 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th width="200">交换机</th>
+      <th>VLAN</th>
+      <th>描述</th>
+      <th>网关</th>
+      <th>掩码</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @vlans.each do |v| %>
+  <tr>
+    <td><%= link_to(v.switch.name, switch_detail_path(switch_id: v.switch)) %></td>
+    <td><%= v.vlan %></td>
+    <td><%= v.remark %></td>
+    <td><%= v.gateway %></td>
+    <td><%= v.netmask %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @vlans, theme: 'bootstrap3' %>
+
