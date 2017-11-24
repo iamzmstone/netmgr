@@ -1,11 +1,14 @@
+require 'snmp'
+require 'utils/zabbix_agent'
+
 class Switch < ApplicationRecord
   has_many :ports, dependent: :destroy
   has_many :vlans, dependent: :destroy
   has_many :mib_ports, dependent: :destroy
 
-  # after_create :create_zabbix_host
-  # after_create :create_mib_info
-  # after_destroy :delete_zabbix_host
+  after_create :create_zabbix_host
+  after_create :create_mib_info
+  after_destroy :delete_zabbix_host
 
   private
   def create_mib_info

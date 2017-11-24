@@ -11,5 +11,6 @@ ActiveAdmin.register Switch do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+  permit_params :name, :ip, :login, :password, :model
 
 end

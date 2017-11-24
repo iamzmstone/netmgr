@@ -1,6 +1,6 @@
 class Port < ApplicationRecord
   belongs_to :switch
-  # after_create :create_zabbix_config
+  after_create :create_zabbix_config
 
   def in_usgs
     in_usg.present? ? in_usg.split(',') : []
