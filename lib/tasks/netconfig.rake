@@ -12,7 +12,7 @@ namespace :netconfig do
     Switch.all.each do |s|
       puts "#{s.name} #{s.ip}"
       begin
-        Net::SFTP.start(s.ip, s.login.present? ? s.login : ENV['sw_ftp_user'], password: (s.password.present? ? s.password : ENV['sw_ftp_pass'])) do |sftp|
+        Net::SFTP.start(s.ip, s.login.present? ? s.login : ENV['sw_def_user'], password: (s.password.present? ? s.password : ENV['sw_def_pass'])) do |sftp|
           sftp.download!('/startup.cfg', "#{CFG_DIR}/#{s.name}.cfg") if s.model =~ /^H3C/
           sftp.download!('/vrpcfg.zip', "#{CFG_DIR}/#{s.name}.zip") if s.model =~ /^HW/
         end
@@ -53,7 +53,7 @@ namespace :netconfig do
     Switch.all.each do |s|
       puts "#{s.name} #{s.ip}"
       begin
-        agent = CmdAgent.new(s.ip, s.login.present? ? s.login : ENV['sw_ftp_user'], s.password.present? ? s.password : ENV['sw_ftp_pass'])
+        agent = CmdAgent.new(s.ip, s.login.present? ? s.login : ENV['sw_def_user'], s.password.present? ? s.password : ENV['sw_def_user'])
         f.puts(agent.run_cmd('display arp'))
         agent.close
       rescue => e

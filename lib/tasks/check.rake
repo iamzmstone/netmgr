@@ -6,7 +6,7 @@ namespace :check do
   task(port_usage: :environment) do
     Switch.all.each do |s|
       puts s.name
-      agent = CmdAgent.new(s.ip, s.login.present? ? s.login : ENV['sw_ftp_user'], s.password.present? ? s.password : ENV['sw_ftp_pass'])
+      agent = CmdAgent.new(s.ip, s.login.present? ? s.login : ENV['sw_def_user'], s.password.present? ? s.password : ENV['sw_def_pass'])
       op = OutputParse.new(s.model.split('-')[0])
       s.ports.each do |p|
         data = op.parse(agent.run_cmd('disp int ' + p.port))

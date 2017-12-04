@@ -86,7 +86,7 @@ class ZabbixAgent
       formula: 8,
       snmp_community: '{$SNMP_COMMUNITY}',
       snmp_oid: "IF-MIB::ifHCInOctets.#{mib.if_nbr}",
-      delay: 300,
+      delay: ENV['sw_traffic_check_delay'] || 300,
       hostid: host[:id],
       applications: [host[:app_id]]
     )
@@ -104,7 +104,7 @@ class ZabbixAgent
       formula: 8,
       snmp_community: '{$SNMP_COMMUNITY}',
       snmp_oid: "IF-MIB::ifHCOutOctets.#{mib.if_nbr}",
-      delay: 300,
+      delay:  ENV['sw_traffic_check_delay'] || 300,
       hostid: host[:id],
       applications: [host[:app_id]]
     )
@@ -119,7 +119,7 @@ class ZabbixAgent
       valuemapid: 8,
       snmp_community: '{$SNMP_COMMUNITY}',
       snmp_oid: "IF-MIB::ifOperStatus.#{mib.if_nbr}",
-      delay: 300,
+      delay:  ENV['sw_status_check_delay'] || 300,
       hostid: host[:id],
       applications: [host[:app_id]]
     )
