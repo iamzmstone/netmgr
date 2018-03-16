@@ -22,3 +22,5 @@
 /config/application.yml
 /netconfig/*
 /output/*
+/public/assets
+
