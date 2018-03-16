@@ -1,6 +1,7 @@
 class Port < ApplicationRecord
   belongs_to :switch
   after_create :create_zabbix_config
+  after_destroy :delete_zabbix_config
 
   def in_usgs
     in_usg.present? ? in_usg.split(',') : []
@@ -30,5 +31,12 @@ class Port < ApplicationRecord
     zbx_agent = ZabbixAgent.new(ENV['zabbix_front_url'], ENV['zabbix_user'], ENV['zabbix_password'])
     host_info = zbx_agent.host_info(host)
     zbx_agent.create_port_conf(host_info, self)
+  end
+
+  def delete_zabbix_config
+    host = self.switch
+    zbx_agent = ZabbixAgent.new(ENV['zabbix_front_url'], ENV['zabbix_user'], ENV['zabbix_password'])
+    host_info = zbx_agent.host_info(host)
+    zbx_agent.delete_port_conf(host_info, self)
   end
 end

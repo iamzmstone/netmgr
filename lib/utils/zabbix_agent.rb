@@ -67,6 +67,15 @@ class ZabbixAgent
     )
   end
 
+  def delete_port_conf(host, p)
+    zbx = @zbx
+    mib = p.mib_info
+
+    zbx.items.delete(zbx.items.get_id(name: "#{mib.port_desc} incomming traffic", hostid: host[:id]))
+    zbx.items.delete(zbx.items.get_id(name: "#{mib.port_desc} outgoing traffic", hostid: host[:id]))
+    zbx.items.delete(zbx.items.get_id(name: "#{mib.port_desc} operational status", hostid: host[:id]))
+  end
+
   def create_port_conf(host, p)
     zbx = @zbx
     s = p.switch
