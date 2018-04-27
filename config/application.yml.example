@@ -27,4 +27,8 @@ zabbix_front_url: 'http://192.168.18.118/zabbix/api_jsonrpc.php'
 zabbix_user: 'Admin'
 zabbix_password: 'zabbix'
 hostgroup_name: 'Police Switches'
+sw_traffic_check_delay: '60'
+sw_status_check_delay: '60'
 
+sms_user: user
+sms_pwd: password
