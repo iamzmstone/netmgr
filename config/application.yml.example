@@ -30,5 +30,8 @@ hostgroup_name: 'Police Switches'
 sw_traffic_check_delay: '60'
 sw_status_check_delay: '60'
 
+sms_host: '10.10.10.1'
+sms_port: 2010
+sms_db: sxzjcn
 sms_user: user
 sms_pwd: password
