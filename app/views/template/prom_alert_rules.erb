@@ -20,9 +20,9 @@ groups:
       summary: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low"
       description: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low for more than 5 minutes."
 - name: switch_port.rules
-<% ports.each do |port| %>
+<% @ports.each do |port| %>
   rules:
-  - alert: "<%= port[:sid] + ':' + port[:name]%>_PortDown"
+  - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_PortDown"
     expr: ifOperStatus{ifName="<%= port[:name] %>",instance="<% port[:ip] %>"} == 2
     for: 5m
     labels:
@@ -30,16 +30,16 @@ groups:
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} is down"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> is down for more than 5 minutes."
-  - alert: "<%= port[:sid] + ':' + port[:name]%>_OutRateHigh"
-    expr: <%= port[:sid] + ':' + port[:name]%>:outrate5m > 0.8*<%= port[:speed] %>*1024*1024
+  - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_OutRateHigh"
+    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:outrate5m > 0.8*<%= port[:speed] %>*1024*1024
     for: 5m
     labels:
       severity: warn
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} out rate is high"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }} is high for more than 5 minutes."
-  - alert: "<%= port[:sid] + ':' + port[:name]%>_InRateHigh"
-    expr: <%= port[:sid] + ':' + port[:name]%>:inrate5m > 0.8*<%= port[:speed] %>*1024*1024
+  - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_InRateHigh"
+    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:inrate5m > 0.8*<%= port[:speed] %>*1024*1024
     for: 5m
     labels:
       severity: warn
