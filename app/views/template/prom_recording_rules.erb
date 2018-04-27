@@ -2,8 +2,8 @@ groups:
 - name: switch_port.rules
   rules:
   <% for port in ports -%>
-  - record: <%= port.ip + ':' + port.name %>:outrate5m
-    expr: rate(ifHCOutOctets{instance="<%= port.ip %>", ifName="<%= port.name %>"}[5m])
-  - record: <%= port.ip + ':' + port.name %>:inrate5m
-    expr: rate(ifHCInOctets{instance="<%= port.ip %>", ifName="<%= port.name %>"}[5m])
+  - record: <%= port[:ip] + ':' + port[:name] %>:outrate5m
+    expr: rate(ifHCOutOctets{instance="<%= port[:ip] %>", ifName="<%= port[:name] %>"}[5m])
+  - record: <%= port[:ip] + ':' + port[:name] %>:inrate5m
+    expr: rate(ifHCInOctets{instance="<%= port[:ip] %>", ifName="<%= port[:name] %>"}[5m])
   <% end -%>
