@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   get 'list_switch' => 'main#list_switch'
   get 'list_port' => 'main#list_port'
   get 'switch_detail' => 'main#switch_detail'
+  post 'webhook' => 'main#webhook'
 end
