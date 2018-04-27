@@ -29,7 +29,7 @@ groups:
       severity: critical
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} is down"
-      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' port[:switch] + ':' + port[:remark] + ']'%> is down for more than 5 minutes."
+      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> is down for more than 5 minutes."
   - alert: "<%= port[:sid] + ':' + port[:name]%>_OutRateHigh"
     expr: <%= port[:sid] + ':' + port[:name]%>:outrate5m > 0.8*<%= port[:speed] %>*1024*1024
     for: 5m
@@ -37,7 +37,7 @@ groups:
       severity: warn
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} out rate is high"
-      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }} is high for more than 5 minutes."
+      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }} is high for more than 5 minutes."
   - alert: "<%= port[:sid] + ':' + port[:name]%>_InRateHigh"
     expr: <%= port[:sid] + ':' + port[:name]%>:inrate5m > 0.8*<%= port[:speed] %>*1024*1024
     for: 5m
@@ -45,5 +45,5 @@ groups:
       severity: warn
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} in rate is high"
-      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' port[:switch] + ':' + port[:remark] + ']'%> in rate {{ $value }} is high for more than 5 minutes."
+      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> in rate {{ $value }} is high for more than 5 minutes."
 <% end %>
