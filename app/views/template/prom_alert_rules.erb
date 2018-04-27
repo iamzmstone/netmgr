@@ -1,0 +1,49 @@
+groups:
+- name: prometheus.rules
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      pager: pagerduty
+      severity: critical
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - alert: WindowsServerFreeDiskLow
+    expr: wmi_logical_disk_free_bytes <= 10*1024*1024*1024
+    for: 5m
+    labels:
+      severity: warn
+      pager: pagerduty
+    annotations:
+      summary: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low"
+      description: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low for more than 5 minutes."
+- name: switch_port.rules
+<% for port in ports -%>
+  rules:
+  - alert: <%= port.ip + ':' + port.port%>_PortDown
+    expr: ifOperStatus{ifName="<%= port.name %>",instance="<% port.ip %>"} == 2
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} is down"
+      description: "Switch port <%= port.ip + ':' + port.port + '[' port.switch + ':' + port.remark + ']'%> is down for more than 5 minutes."
+  - alert: <%= port.ip + ':' + port.port%>_OutRateHigh
+    expr: <%= port.ip + ':' + port.port%>:outrate5m > 0.8*<%= port.speed %>*1024*1024
+    for: 5m
+    labels:
+      severity: warn
+    annotations:
+      summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} out rate is high"
+      description: "Switch port <%= port.ip + ':' + port.port + '[' port.switch + ':' + port.remark + ']'%> out rate {{ $value }} is high for more than 5 minutes."
+  - alert: <%= port.ip + ':' + port.port%>_InRateHigh
+    expr: <%= port.ip + ':' + port.port%>:inrate5m > 0.8*<%= port.speed %>*1024*1024
+    for: 5m
+    labels:
+      severity: warn
+    annotations:
+      summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} in rate is high"
+      description: "Switch port <%= port.ip + ':' + port.port + '[' port.switch + ':' + port.remark + ']'%> in rate {{ $value }} is high for more than 5 minutes."
+<% end -%>

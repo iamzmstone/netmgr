@@ -30,5 +30,6 @@ class MainController < ApplicationController
         SMS.send_sms(pager, content)
       end
     end
+    render plain: 'OK!'
   end
 end

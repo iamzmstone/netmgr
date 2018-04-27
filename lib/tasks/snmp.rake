@@ -36,5 +36,16 @@ namespace :snmp do
       end
     end
   end
+
+  desc 'generate prometheus config files for switch ports'
+  task(prometheus_config: :environment) do
+    ports = []
+    Port.all.each do |p|
+      ports << { switch: p.switch.name, ip: p.switch.ip, name: p.mib_info.port_desc, remark: p.remark, speed: p.speed, if_index: p.mib_info.if_nbr }
+    end
+
+    puts ERB.new(File.read('/app/views/template/prom_alert_rules.erb')).result
+    puts ERB.new(File.read('/app/views/template/prom_recording_rules.erb')).result
+  end
 end
 
