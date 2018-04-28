@@ -3,9 +3,6 @@ require 'utils/cmd_agent'
 require 'utils/sw_conf'
 
 namespace :netconfig do
-  CFG_DIR = 'netconfig'
-  OUTDIR = 'output'
-
   desc 'ftp download config files of switches'
   task(switch: :environment) do
     puts Time.now()

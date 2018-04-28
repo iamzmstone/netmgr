@@ -1,52 +1,32 @@
 groups:
-- name: prometheus.rules
-  rules:
-  - alert: InstanceDown
-    expr: up == 0
-    for: 5m
-    labels:
-    pager: <%= ENV['admin_team_pager'] %>
-      severity: critical
-    annotations:
-      summary: "Instance {{ $labels.instance }} down"
-      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
-  - alert: WindowsServerFreeDiskLow
-    expr: wmi_logical_disk_free_bytes <= 10*1024*1024*1024
-    for: 5m
-    labels:
-      severity: warn
-      pager: <%= ENV['admin_team_pager'] %>
-    annotations:
-      summary: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low"
-      description: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low for more than 5 minutes."
 - name: switch_port.rules
-<% @ports.each do |port| %>
   rules:
+<% @ports.each do |port| %>
   - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_PortDown"
-    expr: ifOperStatus{ifName="<%= port[:name] %>",instance="<% port[:ip] %>"} == 2
+    expr: ifOperStatus{ifName="<%= port[:name] %>",instance="<%= port[:ip] %>"} == 2
     for: 5m
     labels:
       severity: critical
-      pager: <%= ENV['network_team_pager'] %>
+      pager: "<%= ENV['network_team_pager'] %>"
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} is down"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> is down for more than 5 minutes."
   - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_OutRateHigh"
-    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:outrate5m > 0.8*<%= port[:speed] %>*1024*1024
+    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:outrate5m/1024/1024*8 > 0.8*<%= port[:speed] %>
     for: 5m
     labels:
       severity: warn
-      pager: <%= ENV['network_team_pager'] %>
+      pager: "<%= ENV['network_team_pager'] %>"
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} out rate is high"
-      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }} is high for more than 5 minutes."
+      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }}Mbps is high for more than 5 minutes."
   - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_InRateHigh"
-    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:inrate5m > 0.8*<%= port[:speed] %>*1024*1024
+    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:inrate5m/1024/1024*8 > 0.8*<%= port[:speed] %>
     for: 5m
     labels:
       severity: warn
-      pager: <%= ENV['network_team_pager'] %>
+      pager: "<%= ENV['network_team_pager'] %>"
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} in rate is high"
-      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> in rate {{ $value }} is high for more than 5 minutes."
+      description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> in rate {{ $value }}Mbps is high for more than 5 minutes."
 <% end %>
