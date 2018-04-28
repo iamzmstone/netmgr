@@ -2,6 +2,7 @@ require 'snmp'
 require 'utils/zabbix_agent'
 
 namespace :snmp do
+  OUTDIR = 'output'
   desc 'get interface snmp info of all swiches'
   task(interface: :environment) do
     Switch.all.each do |s|
@@ -44,8 +45,13 @@ namespace :snmp do
       @ports << { switch: p.switch.name, sid: "sw#{p.switch.id}", ip: p.switch.ip, name: p.mib_info.port_desc, remark: p.remark, speed: p.speed, if_index: p.mib_info.if_nbr }
     end
 
-    puts ERB.new(File.read('app/views/template/prom_alert_rules.erb')).result
-    puts ERB.new(File.read('app/views/template/prom_recording_rules.erb')).result
+    f = File.new("#{OUTDIR}/alert_rules.yml", 'w')
+    f.puts(ERB.new(File.read('app/views/template/prom_alert_rules.erb')).result)
+    f.close
+
+    f = File.new("#{OUTDIR}/recording_rules.yml", 'w')
+    f.puts(ERB.new(File.read('app/views/template/prom_recording_rules.erb')).result)
+    f.close
   end
 end
 

@@ -5,7 +5,7 @@ groups:
     expr: up == 0
     for: 5m
     labels:
-      pager: pagerduty
+    pager: <%= ENV['admin_team_pager'] %>
       severity: critical
     annotations:
       summary: "Instance {{ $labels.instance }} down"
@@ -15,7 +15,7 @@ groups:
     for: 5m
     labels:
       severity: warn
-      pager: pagerduty
+      pager: <%= ENV['admin_team_pager'] %>
     annotations:
       summary: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low"
       description: "Instance {{ $labels.instance }} {{ $labels.volume }} free space is low for more than 5 minutes."
@@ -27,6 +27,7 @@ groups:
     for: 5m
     labels:
       severity: critical
+      pager: <%= ENV['network_team_pager'] %>
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} is down"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> is down for more than 5 minutes."
@@ -35,6 +36,7 @@ groups:
     for: 5m
     labels:
       severity: warn
+      pager: <%= ENV['network_team_pager'] %>
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} out rate is high"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }} is high for more than 5 minutes."
@@ -43,6 +45,7 @@ groups:
     for: 5m
     labels:
       severity: warn
+      pager: <%= ENV['network_team_pager'] %>
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} in rate is high"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> in rate {{ $value }} is high for more than 5 minutes."

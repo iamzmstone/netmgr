@@ -35,3 +35,6 @@ sms_port: 2010
 sms_db: sxzjcn
 sms_user: user
 sms_pwd: password
+
+admin_team_pager: '1xx001 1x003'
+network_team_pager: '1xx101 1x103'
