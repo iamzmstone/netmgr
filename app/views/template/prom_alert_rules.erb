@@ -2,7 +2,7 @@ groups:
 - name: switch_port.rules
   rules:
 <% @ports.each do |port| %>
-  - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_PortDown"
+  - alert: "<%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>_PortDown"
     expr: ifOperStatus{ifName="<%= port[:name] %>",instance="<%= port[:ip] %>"} == 2
     for: 5m
     labels:
@@ -11,8 +11,8 @@ groups:
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} is down"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> is down for more than 5 minutes."
-  - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_OutRateHigh"
-    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:outrate5m/1024/1024*8 > 0.8*<%= port[:speed] %>
+  - alert: "<%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>_OutRateHigh"
+    expr: <%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>:outrate5m/1024/1024*8 > 0.8*<%= port[:speed] %>
     for: 5m
     labels:
       severity: warn
@@ -20,8 +20,8 @@ groups:
     annotations:
       summary: "Switch port {{ $labels.instance }} {{ $labels.ifIndex }} out rate is high"
       description: "Switch port <%= port[:ip] + ':' + port[:name] + '[' + port[:switch] + ':' + port[:remark] + ']'%> out rate {{ $value }}Mbps is high for more than 5 minutes."
-  - alert: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>_InRateHigh"
-    expr: <%= port[:sid] + ':' + port[:name].gsub('/','_') %>:inrate5m/1024/1024*8 > 0.8*<%= port[:speed] %>
+  - alert: "<%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>_InRateHigh"
+    expr: <%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>:inrate5m/1024/1024*8 > 0.8*<%= port[:speed] %>
     for: 5m
     labels:
       severity: warn

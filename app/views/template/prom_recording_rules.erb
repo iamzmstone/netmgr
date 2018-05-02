@@ -2,8 +2,8 @@ groups:
 - name: switch_port.rules
   rules:
   <% @ports.each do |port| %>
-  - record: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>:outrate5m"
+  - record: "<%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>:outrate5m"
     expr: rate(ifHCOutOctets{instance="<%= port[:ip] %>", ifName="<%= port[:name] %>"}[5m])
-  - record: "<%= port[:sid] + ':' + port[:name].gsub('/','_') %>:inrate5m"
+  - record: "<%= port[:sid] + ':' + port[:name].gsub(/-|\//,'_') %>:inrate5m"
     expr: rate(ifHCInOctets{instance="<%= port[:ip] %>", ifName="<%= port[:name] %>"}[5m])
   <% end %>
