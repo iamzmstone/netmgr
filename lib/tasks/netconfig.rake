@@ -6,6 +6,7 @@ namespace :netconfig do
   desc 'ftp download config files of switches'
   task(switch: :environment) do
     puts Time.now()
+    Dir.mkdir(CFG_DIR) unless File.exists?(CFG_DIR)
     Switch.all.each do |s|
       puts "#{s.name} #{s.ip}"
       begin
@@ -46,11 +47,12 @@ namespace :netconfig do
   desc 'connect to each switch and generate arpall.txt'
   task(gen_arp_all: :environment) do
     puts Time.now()
+    Dir.mkdir(OUTDIR) unless File.exists?(OUTDIR)
     f = File.new("#{OUTDIR}/arpall.txt", 'w')
     Switch.all.each do |s|
       puts "#{s.name} #{s.ip}"
       begin
-        agent = CmdAgent.new(s.ip, s.login.present? ? s.login : ENV['sw_def_user'], s.password.present? ? s.password : ENV['sw_def_user'])
+        agent = CmdAgent.new(s.ip, s.login.present? ? s.login : ENV['sw_def_user'], s.password.present? ? s.password : ENV['sw_def_pass'])
         f.puts(agent.run_cmd('display arp'))
         agent.close
       rescue => e
