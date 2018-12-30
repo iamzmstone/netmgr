@@ -144,7 +144,8 @@ class ZabbixAgent
 
     # create triggers
     zbx.triggers.create(
-      description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} incoming traffic is too high",
+      # description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} incoming traffic is too high",
+      description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} 入端口流量已达到85%",
       expression: "{#{s.ip}:ifInOctets[#{mib.port_desc}].last(#3)}/(#{p.speed || 1000}*1024*1024)>0.85",
       comments: "#{s.name}:#{mib.port_desc} incoming traffic is too high(over 85%)",
       priority: 4,
@@ -156,7 +157,8 @@ class ZabbixAgent
     )
 
     zbx.triggers.create(
-      description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} outgoing traffic is too high",
+      # description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} outgoing traffic is too high",
+      description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} 出端口流量达到85%",
       expression: "{#{s.ip}:ifOutOctets[#{mib.port_desc}].last(#3)}/(#{p.speed || 1000}*1024*1024)>0.85",
       comments: "#{s.name}:#{mib.port_desc} outgoing traffic is too high(over 85%)",
       priority: 4,
@@ -168,7 +170,8 @@ class ZabbixAgent
     )
 
     zbx.triggers.create(
-      description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} is down",
+      # description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} is down",
+      description: "#{s.name}:#{s.ip}:#{mib.port_desc}:#{p.remark} 链路断!!!",
       expression: "{#{s.ip}:ifOperStatus[#{mib.port_desc}].last(#3)}=2",
       comments: "Interface #{s.name}:#{mib.port_desc} is down",
       priority: 5,
