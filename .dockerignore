@@ -1,0 +1,12 @@
+.git
+.env
+.dockerignore
+.gitignore
+.env
+.bundle
+public/
+
+db/development.sqlite3
+db/test.sqlite3
+db/production.sqlite3
+

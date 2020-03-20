@@ -12,13 +12,13 @@
 
 ActiveRecord::Schema.define(version: 20171121083732) do
 
-  create_table "active_admin_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.bigint "resource_id"
+    t.integer "resource_id"
     t.string "author_type"
-    t.bigint "author_id"
+    t.integer "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20171121083732) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
   end
 
-  create_table "admin_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20171121083732) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "mib_ports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "mib_ports", force: :cascade do |t|
     t.integer "switch_id"
     t.integer "if_nbr"
     t.string "port_desc"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20171121083732) do
     t.index ["switch_id"], name: "index_mib_ports_on_switch_id"
   end
 
-  create_table "ports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ports", force: :cascade do |t|
     t.integer "switch_id"
     t.string "port"
     t.integer "speed"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20171121083732) do
     t.index ["switch_id"], name: "index_ports_on_switch_id"
   end
 
-  create_table "switches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "switches", force: :cascade do |t|
     t.string "name"
     t.string "ip"
     t.string "login"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20171121083732) do
     t.index ["name"], name: "index_switches_on_name"
   end
 
-  create_table "vlans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "vlans", force: :cascade do |t|
     t.integer "switch_id"
     t.integer "vlan"
     t.string "remark"

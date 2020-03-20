@@ -1,0 +1,16 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+#    volumes:
+#      - .:/netmgr 
+    depends_on:
+      - zabbix-server
+  zabbix-server:
+    image: zabbix/zabbix-appliance:alpine-3.2-latest
+    ports:
+      - "8000:80"
+      - "10051:10051"
+
